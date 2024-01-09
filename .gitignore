@@ -1,3 +1,5 @@
+!*.vhd
+!*.ucf
 *.pcf
 *.ini
 *.prj
