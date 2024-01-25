@@ -1,0 +1,50 @@
+NET "clk" LOC = P184;
+NET "dac_clk" LOC = P61;
+NET "dac_out[9]" LOC = P55;
+NET "dac_out[8]" LOC = P49;
+NET "dac_out[7]" LOC = P47;
+NET "dac_out[6]" LOC = P42;
+NET "dac_out[5]" LOC = P40;
+NET "dac_out[4]" LOC = P36;
+NET "dac_out[3]" LOC = P34;
+NET "dac_out[2]" LOC = P31;
+NET "dac_out[1]" LOC = P29;
+NET "dac_out[0]" LOC = P25;
+
+
+NET "dac_clk" IOSTANDARD = LVTTL;
+NET "dac_out[0]" IOSTANDARD = LVTTL;
+NET "dac_out[1]" IOSTANDARD = LVTTL;
+NET "dac_out[2]" IOSTANDARD = LVTTL;
+NET "dac_out[3]" IOSTANDARD = LVTTL;
+NET "dac_out[4]" IOSTANDARD = LVTTL;
+NET "dac_out[5]" IOSTANDARD = LVTTL;
+NET "dac_out[6]" IOSTANDARD = LVTTL;
+NET "dac_out[7]" IOSTANDARD = LVTTL;
+NET "dac_out[8]" IOSTANDARD = LVTTL;
+NET "dac_out[9]" IOSTANDARD = LVTTL;
+
+# PlanAhead Generated IO constraints 
+
+NET "dac_out[0]" DRIVE = 12;
+NET "dac_out[1]" DRIVE = 12;
+NET "dac_out[2]" DRIVE = 12;
+NET "dac_out[3]" DRIVE = 12;
+NET "dac_out[4]" DRIVE = 12;
+NET "dac_out[5]" DRIVE = 12;
+NET "dac_out[6]" DRIVE = 12;
+NET "dac_out[7]" DRIVE = 12;
+NET "dac_out[8]" DRIVE = 12;
+NET "dac_out[9]" DRIVE = 12;
+NET "clk" SLEW = FAST;
+NET "dac_clk" SLEW = FAST;
+NET "dac_out[0]" SLEW = FAST;
+NET "dac_out[1]" SLEW = FAST;
+NET "dac_out[2]" SLEW = FAST;
+NET "dac_out[3]" SLEW = FAST;
+NET "dac_out[4]" SLEW = FAST;
+NET "dac_out[5]" SLEW = FAST;
+NET "dac_out[6]" SLEW = FAST;
+NET "dac_out[7]" SLEW = FAST;
+NET "dac_out[8]" SLEW = FAST;
+NET "dac_out[9]" SLEW = FAST;

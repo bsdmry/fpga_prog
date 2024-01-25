@@ -1,5 +1,9 @@
 !*.vhd
 !*.ucf
+*/*/isim/
+*/*/iseconfig/
+*/*/xst/
+*/*/_ngo/
 *.pcf
 *.ini
 *.prj
@@ -43,3 +47,13 @@
 *.csv
 *.ipf
 *.ref
+*.vho
+*.xbcd
+*.jou
+*.ppr
+*.vdb
+*.xreport
+*.par
+*.pad
+*.ngr
+*.xpi
