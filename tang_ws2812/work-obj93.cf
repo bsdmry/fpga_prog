@@ -1,7 +1,0 @@
-v 4
-file . "ws1228_driver.vhd" "d96d15ad1dce8b105daf6cae816a1bbfe3d6bfa6" "20240727210344.540":
-  entity ws1228_driver at 1( 0) + 0 on 13;
-  architecture ws1228_driver_arch of ws1228_driver at 16( 395) + 0 on 14;
-file . "ws1228_driver_tb.vhd" "8c91808fc9030cd0e90b6bfa83f962928f93b160" "20240727210344.540":
-  entity ws1228_driver_tb at 1( 0) + 0 on 11;
-  architecture ws1228_driver_arch_tb of ws1228_driver_tb at 8( 120) + 0 on 12;
