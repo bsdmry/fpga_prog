@@ -16,8 +16,6 @@ component ws1228_driver is port (
 	done: out STD_LOGIC	);
 end component;
 
---for uut: ws1228_driver use entity work.ws1228_driver;
-
 signal clk:  STD_LOGIC := '1';
 signal r_reg: STD_LOGIC_VECTOR (7 downto 0) := (others => '0');
 signal g_reg: STD_LOGIC_VECTOR (7 downto 0) := (others => '0');
