@@ -1,0 +1,8 @@
+IO_LOC "inclk_20mhz" 10;
+IO_PORT "inclk_20mhz" IO_TYPE=LVCMOS33; 
+
+IO_LOC "button" 88;
+IO_PORT "button" IO_TYPE=LVCMOS18 PULL_MODE=UP; 
+
+IO_LOC "output" 79;
+IO_PORT "output" IO_TYPE=LVCMOS33; 
