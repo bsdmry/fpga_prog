@@ -29,8 +29,8 @@ begin
 				done <= '0';
 				if enable = '1' then 
 					state <= "01";
-					txdata(23 downto 16) <= r;
-					txdata(15 downto 8) <= g;
+					txdata(23 downto 16) <= g;
+					txdata(15 downto 8) <= r;
 					txdata(7 downto 0) <= b;
 				end if;
 			when "01" =>

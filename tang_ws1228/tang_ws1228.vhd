@@ -61,7 +61,7 @@ component usr_ws1228 is port (
 
 end component;
 
-constant red: STD_LOGIC_VECTOR (7 downto 0) := x"AA";
+constant red: STD_LOGIC_VECTOR (7 downto 0) := x"F0";
 constant green: STD_LOGIC_VECTOR (7 downto 0) := x"00";
 constant blue: STD_LOGIC_VECTOR (7 downto 0) := x"00";
 signal en: STD_LOGIC := '0';
