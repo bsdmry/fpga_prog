@@ -12,7 +12,7 @@ entity lfsr_prnd is
 end lfsr_prnd;
 
 architecture lfsr_prnd_arch of lfsr_prnd is
-	signal reg: std_logic_vector(23 downto 0) := "000000000000000000000000";
+	signal reg: std_logic_vector(23 downto 0) := "111111111111111111111111";
 begin
 	process(clk, preset) begin
 		if rising_edge(clk) then
