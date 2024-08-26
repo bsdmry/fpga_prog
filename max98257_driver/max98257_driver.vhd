@@ -8,7 +8,7 @@ entity max98257_driver is
 	parallel_in : in  STD_LOGIC_VECTOR (15 downto 0);
 	driver_enable: in STD_LOGIC;
 	load_ready: out STD_LOGIC := '0';
-	drv_clk : in  STD_LOGIC; --32 kHz
+	drv_clk : in  STD_LOGIC; --512 kHz for 8kHz/16 bit
 	max98257_bclk : out  STD_LOGIC := '0';
 	max98257_lrclk: out STD_LOGIC := '0';
 	max98257_data: out STD_LOGIC := '0';
@@ -43,7 +43,7 @@ begin
 							index <= index -1;	
 						when 0 =>
 							reg(31 downto 16) <= parallel_in;
-							--reg(15 downto 0) <= parallel_in;
+							reg(15 downto 0) <= x"0000";
 							index <=  31;
 						when others =>
 							index <= index -1;	
