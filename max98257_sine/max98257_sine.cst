@@ -1,0 +1,12 @@
+IO_LOC "drv_clk" 13;
+
+IO_LOC "max98257_bclk" 56;
+IO_LOC "max98257_lrclk" 55;
+IO_LOC "max98257_data" 54;
+IO_LOC "max98257_enable" 51;
+
+IO_PORT "max98257_bclk" PULL_MODE=UP DRIVE=8;
+IO_PORT "max98257_lrclk" PULL_MODE=UP DRIVE=8;
+IO_PORT "max98257_data" PULL_MODE=UP DRIVE=8;
+IO_PORT "max98257_enable" PULL_MODE=UP DRIVE=8;
+
