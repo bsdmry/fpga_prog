@@ -133,3 +133,9 @@ clean:
 
 "
 echo "$makefile" > ${prj_name}/Makefile
+
+touch ${prj_name}/${prj_name}.cst
+pinmapping="IO_LOC \"clk\"     4;
+
+IO_PORT \"clk\"     IO_TYPE=LVCMOS33;"
+echo "$pinmapping" > ${prj_name}/${prj_name}.cst
