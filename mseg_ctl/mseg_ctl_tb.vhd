@@ -38,7 +38,7 @@ uut: mseg_ctl port map (
 	spi_clk_div => scale_factor,
 	symbol => led_symbol,
 	dot => '0',
-	position => "010",
+	position => "000",
 	set => set_signal,
 	spi_clk => out_spi_clk,
 	spi_data => out_spi_data,

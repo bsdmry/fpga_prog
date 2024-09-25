@@ -50,15 +50,17 @@ begin
 			case tx_state is
 				when "000" => spi_cs <= '0'; tx_state := "001";
 				when "001" =>
-					spi_data <= symbols(symbol_index)(bit_index);
 					case bit_index is
 						when 0 => 
+							spi_data <= symbols(symbol_index)(bit_index);
 							bit_index := 31;
 							case symbol_index is
 								when  7 => symbol_index := 0; tx_state := "010";
 								when others => symbol_index := symbol_index + 1;
 							end case;
-						when others => bit_index := bit_index - 1;
+						when others => 
+							spi_data <= symbols(symbol_index)(bit_index);
+							bit_index := bit_index - 1;
 					end case;
 				when "010" => spi_cs <= '1'; tx_state := "000";
 				when others => tx_state := "000";
@@ -69,6 +71,7 @@ begin
 	process(set) begin
 		if rising_edge(set) then
 			divider <= spi_clk_div;
+			symbols(to_integer(unsigned( position)))(31 downto 25) <= "1111111";
 			symbols(to_integer(unsigned( position)))(24) <= not dot;
 			symbols(to_integer(unsigned( position)))(23 downto 8) <= not symbol;
 		end if;
