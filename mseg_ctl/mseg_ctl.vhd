@@ -12,7 +12,10 @@ entity mseg_ctl is
 	symbol: in std_logic_vector(15 downto 0);
 	dot: in std_logic;
 	position: in std_logic_vector(2 downto 0);
-	set: in std_logic
+	clear: in std_logic;
+	set: in std_logic;
+    	dbg_state: out std_logic_vector(2 downto 0);
+	dbg_index: out natural range 0 to 31
 	 );
 end mseg_ctl;
 
@@ -47,15 +50,23 @@ begin
 	variable tx_state: std_logic_vector(2 downto 0) := "000";
 	begin
 		if falling_edge(int_spi_clk) then
+			dbg_state <= tx_state;
+			dbg_index <= bit_index;
 			case tx_state is
-				when "000" => spi_cs <= '0'; tx_state := "001";
+				when "000" => 
+					spi_cs <= '0'; 
+					tx_state := "001";
+					spi_data <= symbols(symbol_index)(bit_index);
+					bit_index := bit_index - 1;
 				when "001" =>
 					case bit_index is
 						when 0 => 
 							spi_data <= symbols(symbol_index)(bit_index);
 							bit_index := 31;
+							tx_state := "010";
+
 							case symbol_index is
-								when  7 => symbol_index := 0; tx_state := "010";
+								when  7 => symbol_index := 0;
 								when others => symbol_index := symbol_index + 1;
 							end case;
 						when others => 
@@ -70,10 +81,21 @@ begin
 
 	process(set) begin
 		if rising_edge(set) then
-			divider <= spi_clk_div;
-			symbols(to_integer(unsigned( position)))(31 downto 25) <= "1111111";
-			symbols(to_integer(unsigned( position)))(24) <= not dot;
-			symbols(to_integer(unsigned( position)))(23 downto 8) <= not symbol;
+			if clear = '0' then 
+				divider <= spi_clk_div;
+				symbols(to_integer(unsigned( position)))(31 downto 25) <= "1111111";
+				symbols(to_integer(unsigned( position)))(24) <= not dot;
+				symbols(to_integer(unsigned( position)))(23 downto 8) <= not symbol;
+			else
+				symbols(0) <= x"FFFFFF01";
+				symbols(1) <= x"FFFFFF02";
+				symbols(2) <= x"FFFFFF04";
+				symbols(3) <= x"FFFFFF08";
+				symbols(4) <= x"FFFFFF10";
+				symbols(5) <= x"FFFFFF20";
+				symbols(6) <= x"FFFFFF40";
+				symbols(7) <= x"FFFFFF80";
+			end if;
 		end if;
 	end process;
 end mseg_ctl_arch;

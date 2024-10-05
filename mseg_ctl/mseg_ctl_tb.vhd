@@ -16,7 +16,10 @@ component mseg_ctl is port (
 	symbol: in std_logic_vector(15 downto 0);
 	dot: in std_logic;
 	position: in std_logic_vector(2 downto 0);
-	set: in std_logic
+	clear: in std_logic;
+	set: in std_logic;
+    	dbg_state: out std_logic_vector(2 downto 0);
+	dbg_index: out natural range 0 to 31
 	);
 end component;
 
@@ -26,6 +29,7 @@ constant clk_period : time := 6 ns;
 constant led_symbol: std_logic_vector(15 downto 0) := x"dd50";
 constant scale_factor: std_logic_vector(3 downto 0) := "0001";
 signal set_signal: std_logic := '0';
+signal clear_signal: std_logic := '0';
 
 signal out_spi_clk: std_logic;
 signal out_spi_data: std_logic;
@@ -38,8 +42,9 @@ uut: mseg_ctl port map (
 	spi_clk_div => scale_factor,
 	symbol => led_symbol,
 	dot => '0',
-	position => "000",
+	position => "001",
 	set => set_signal,
+	clear => clear_signal,
 	spi_clk => out_spi_clk,
 	spi_data => out_spi_data,
 	spi_cs => out_spi_cs
@@ -61,6 +66,13 @@ stim_process : process
 begin
 	wait for 30 ns;
 	-- INSERT TEST CODE HERE ---
+	clear_signal <= '1';
+	set_signal <= '1';
+	wait for 30 ns;
+	clear_signal <= '0';
+	set_signal <= '0';
+	wait for 30 ns;
+
 	set_signal <= '1';
 	wait for 30 ns;
 	set_signal <= '0';
