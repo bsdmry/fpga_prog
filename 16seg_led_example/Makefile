@@ -4,7 +4,7 @@ FAMILY=GW2A-18
 DEVICE=GW2A-LV18QN88C8/I7
 
 SRCS=$(wildcard *.vhd)
-TOP=16seg_led_example
+TOP=d16seg_led_example
 VHDLLIBDIR=/usr/lib/ghdl/mcode/vhdl/
 
 # <target name>: <target dependencies>

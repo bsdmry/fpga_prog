@@ -3,17 +3,19 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 
-entity 16seg_led_example is
+entity d16seg_led_example is
     Port ( clk : in  STD_LOGIC;
-    	   clr_btn: in std_logic
+    	   clr_btn: in std_logic;
 	   msg_btn: in std_logic;
-    	   driver_cs: out std_logic;
-    	   driver_clk: out std_logic;
-    	   driver_data: out std_logic
+    	   driver_cs: out std_logic := '1';
+    	   driver_clk: out std_logic := '0';
+    	   driver_data: out std_logic := '0';
+    	   clr_led: out std_logic := '0';
+    	   msg_led: out std_logic := '0'
 	 );
-end 16seg_led_example;
+end d16seg_led_example;
 
-architecture 16seg_led_example_arch of 16seg_led_example is
+architecture d16seg_led_example_arch of d16seg_led_example is
 component mseg_ctl is port (
 	clk : in std_logic;
 	spi_clk_div: in std_logic_vector(3 downto 0);
@@ -27,10 +29,11 @@ component mseg_ctl is port (
 	set: in std_logic
 	);
 end component;
+
 constant scaler_value: std_logic_vector(3 downto 0) := "1111";
-signal symbol: std_logic_vector(15 downto 0);
+signal symbol: std_logic_vector(15 downto 0) := x"df88";
 signal dot: std_logic := '0';
-signal position: std_logic_vector(2 downto 0) := "010";
+signal position: std_logic_vector(2 downto 0) := "101";
 signal clear_sig: std_logic := '0';
 signal set_sig: std_logic := '0';
 
@@ -50,20 +53,26 @@ driver : mseg_ctl port map(
 
 	process(clk) begin
 		if rising_edge(clk) then
-			if clr_btn = '0' then
+			if clr_btn = '1' then
 				clear_sig <= '1';
 				set_sig <= '1';
+				clr_led <= '0';
+				msg_led <= '1';
 			else
-				if msg_btn = '0' then
+				if msg_btn = '1' then
 					clear_sig <= '0';
 					set_sig <= '1';
+					clr_led <= '1';
+					msg_led <= '0';
 				else
 					clear_sig <= '0';
 					set_sig <= '0';
+					clr_led <= '1';
+					msg_led <= '1';
 				end if;
 			end if;
 		end if;
 	end process;
 
-end 16seg_led_example_arch;
+end d16seg_led_example_arch;
 

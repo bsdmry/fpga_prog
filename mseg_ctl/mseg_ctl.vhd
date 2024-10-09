@@ -85,7 +85,10 @@ begin
 				divider <= spi_clk_div;
 				symbols(to_integer(unsigned( position)))(31 downto 25) <= "1111111";
 				symbols(to_integer(unsigned( position)))(24) <= not dot;
-				symbols(to_integer(unsigned( position)))(23 downto 8) <= not symbol;
+
+				--symbols(to_integer(unsigned( position)))(23 downto 8) <= not symbol; --WTF? low byte comes first
+				symbols(to_integer(unsigned( position)))(23 downto 16) <= not symbol(7 downto 0);
+				symbols(to_integer(unsigned( position)))(15 downto 8) <= not symbol(15 downto 8);
 			else
 				symbols(0) <= x"FFFFFF01";
 				symbols(1) <= x"FFFFFF02";

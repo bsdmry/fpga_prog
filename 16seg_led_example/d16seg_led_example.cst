@@ -1,0 +1,20 @@
+IO_LOC "clk"     10;
+IO_PORT "clk"     IO_TYPE=LVCMOS33;
+
+IO_LOC "clr_btn" 87;
+IO_PORT "clr_btn" IO_TYPE=LVCMOS18 PULL_MODE=DOWN; 
+
+IO_LOC "msg_btn" 88;
+IO_PORT "msg_btn" IO_TYPE=LVCMOS18 PULL_MODE=DOWN; 
+
+IO_LOC "driver_cs"     72;
+IO_PORT "driver_cs"     IO_TYPE=LVCMOS33;
+IO_LOC "driver_clk"     71;
+IO_PORT "driver_clk"     IO_TYPE=LVCMOS33;
+IO_LOC "driver_data"     53;
+IO_PORT "driver_data"     IO_TYPE=LVCMOS33;
+
+IO_LOC "clr_led"     15;
+IO_PORT "clr_led"     IO_TYPE=LVCMOS33;
+IO_LOC "msg_led"     20;
+IO_PORT "msg_led"     IO_TYPE=LVCMOS33;
