@@ -13,16 +13,16 @@ entity mseg_ctl is
 	dot: in std_logic;
 	position: in std_logic_vector(2 downto 0);
 	clear: in std_logic;
-	set: in std_logic;
-    	dbg_state: out std_logic_vector(2 downto 0);
-	dbg_index: out natural range 0 to 31
+	set: in std_logic
+    	--dbg_state: out std_logic_vector(2 downto 0);
+	--dbg_index: out natural range 0 to 31
 	 );
 end mseg_ctl;
 
 architecture mseg_ctl_arch of mseg_ctl is
 type char_mem8_32 is array(0 to 7) of std_logic_vector(31 downto 0);
-signal symbols: char_mem8_32 := (x"11111101", x"11111102", x"11111104", x"11111108", 
-				 x"11111110", x"11111120", x"11111140", x"11111180" );
+signal symbols: char_mem8_32 := (x"FFFFFF01", x"FFFFFF02", x"FFFFFF04", x"FFFFFF08", 
+				 x"FFFFFF10", x"FFFFFF20", x"FFFFFF40", x"FFFFFF80" );
 signal divider: std_logic_vector(3 downto 0) := "0000";
 signal int_spi_clk: std_logic := '0';
 
@@ -50,8 +50,8 @@ begin
 	variable tx_state: std_logic_vector(2 downto 0) := "000";
 	begin
 		if falling_edge(int_spi_clk) then
-			dbg_state <= tx_state;
-			dbg_index <= bit_index;
+			--dbg_state <= tx_state;
+			--dbg_index <= bit_index;
 			case tx_state is
 				when "000" => 
 					spi_cs <= '0'; 

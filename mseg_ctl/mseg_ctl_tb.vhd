@@ -17,9 +17,9 @@ component mseg_ctl is port (
 	dot: in std_logic;
 	position: in std_logic_vector(2 downto 0);
 	clear: in std_logic;
-	set: in std_logic;
-    	dbg_state: out std_logic_vector(2 downto 0);
-	dbg_index: out natural range 0 to 31
+	set: in std_logic
+    	--dbg_state: out std_logic_vector(2 downto 0);
+	--dbg_index: out natural range 0 to 31
 	);
 end component;
 
