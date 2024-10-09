@@ -1,0 +1,8 @@
+IO_LOC "clk"     4;
+IO_PORT "clk"     IO_TYPE=LVCMOS33;
+
+IO_LOC "clr_btn" 88;
+IO_PORT "clr_btn" IO_TYPE=LVCMOS18 PULL_MODE=UP; 
+
+IO_LOC "msg_btn" 87;
+IO_PORT "msg_btn" IO_TYPE=LVCMOS18 PULL_MODE=UP; 
