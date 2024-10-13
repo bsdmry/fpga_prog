@@ -10,7 +10,7 @@ entity uart is
 	   rx_ready: out std_logic := '0';
 	   tx: out std_logic := '1';
 	   tx_byte_in: in std_logic_vector( 7 downto 0);
-	   tx_ready: out std_logic := '0';
+	   tx_ready: out std_logic := '1';
 	   tx_send: in std_logic
 	 );
 end uart;
