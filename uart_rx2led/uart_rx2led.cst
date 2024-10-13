@@ -1,0 +1,29 @@
+IO_LOC "clk"     11;
+IO_PORT "clk"     IO_TYPE=LVCMOS33;
+
+
+IO_LOC "rx_pin"     70;
+IO_PORT "rx_pin"     IO_TYPE=LVCMOS33;
+IO_LOC "tx_pin"     69;
+IO_PORT "tx_pin"     IO_TYPE=LVCMOS33;
+
+IO_LOC "button_tx"     72;
+IO_PORT "button_tx"     IO_TYPE=LVCMOS33 PULL_MODE=UP DRIVE=8;
+
+
+IO_LOC "ascii2led[0]"     79;
+IO_PORT "ascii2led[0]"     IO_TYPE=LVCMOS33;
+IO_LOC "ascii2led[1]"     86;
+IO_PORT "ascii2led[1]"     IO_TYPE=LVCMOS33;
+IO_LOC "ascii2led[2]"     49;
+IO_PORT "ascii2led[2]"     IO_TYPE=LVCMOS33;
+IO_LOC "ascii2led[3]"     55;
+IO_PORT "ascii2led[3]"     IO_TYPE=LVCMOS33;
+IO_LOC "ascii2led[4]"     48;
+IO_PORT "ascii2led[4]"     IO_TYPE=LVCMOS33;
+IO_LOC "ascii2led[5]"     51;
+IO_PORT "ascii2led[5]"     IO_TYPE=LVCMOS33;
+IO_LOC "ascii2led[6]"     54;
+IO_PORT "ascii2led[6]"     IO_TYPE=LVCMOS33;
+IO_LOC "ascii2led[7]"     56;
+IO_PORT "ascii2led[7]"     IO_TYPE=LVCMOS33;
