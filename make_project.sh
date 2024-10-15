@@ -77,7 +77,7 @@ echo "$tbfile" > ${prj_name}/${tb_name}.vhd
 touch ${prj_name}/Makefile
 makefile="############################################################
 BOARD=tangnano20k
-FAMILY=GW2A-18
+FAMILY=GW2A-18C
 DEVICE=GW2A-LV18QN88C8/I7
 
 SRCS=\$(wildcard *.vhd)
