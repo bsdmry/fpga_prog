@@ -1,0 +1,52 @@
+IO_LOC "clk"     4;
+IO_LOC "cs_in"     86;
+IO_LOC "dat_in"     76;
+IO_LOC "dir_in"     75;
+IO_LOC "sclk_in"     13;
+IO_LOC "tms_in"     5;
+IO_LOC "tck_in"     6;
+IO_LOC "tdi_in"     7;
+IO_LOC "tdo_in"     8;
+IO_LOC "tx_in"     69;
+IO_LOC "rx_in"     70;
+
+IO_LOC "cs_out"     72;
+IO_LOC "dat_out"     71;
+IO_LOC "dir_out"     53;
+IO_LOC "sclk_out"     52;
+
+IO_LOC "tms_out"     27;
+IO_LOC "tck_out"     28;
+IO_LOC "tdi_out"     25;
+IO_LOC "tdo_out"     26;
+
+//IO_LOC "tms_out"     17;
+//IO_LOC "tck_out"     20;
+//IO_LOC "tdi_out"     18;
+//IO_LOC "tdo_out"     19;
+
+IO_LOC "tx_out"     29;
+IO_LOC "rx_out"     30;
+
+IO_PORT "clk"     IO_TYPE=LVCMOS33; 
+IO_PORT "cs_in"     IO_TYPE=LVCMOS33; 
+IO_PORT "dat_in"     IO_TYPE=LVCMOS33; 
+IO_PORT "dir_in"     IO_TYPE=LVCMOS33; 
+IO_PORT "sclk_in"     IO_TYPE=LVCMOS33; 
+IO_PORT "tms_in"     IO_TYPE=LVCMOS33; 
+IO_PORT "tck_in"     IO_TYPE=LVCMOS33; 
+IO_PORT "tdi_in"     IO_TYPE=LVCMOS33; 
+IO_PORT "tdo_in"     IO_TYPE=LVCMOS33; 
+IO_PORT "tx_in"     IO_TYPE=LVCMOS33; 
+IO_PORT "rx_in"     IO_TYPE=LVCMOS33; 
+
+IO_PORT "cs_out"     IO_TYPE=LVCMOS33; 
+IO_PORT "dat_out"     IO_TYPE=LVCMOS33; 
+IO_PORT "dir_out"     IO_TYPE=LVCMOS33; 
+IO_PORT "sclk_out"     IO_TYPE=LVCMOS33; 
+IO_PORT "tms_out"     IO_TYPE=LVCMOS33; 
+IO_PORT "tck_out"     IO_TYPE=LVCMOS33; 
+IO_PORT "tdi_out"     IO_TYPE=LVCMOS33; 
+IO_PORT "tdo_out"     IO_TYPE=LVCMOS33; 
+IO_PORT "tx_out"     IO_TYPE=LVCMOS33; 
+IO_PORT "rx_out"     IO_TYPE=LVCMOS33; 
