@@ -18,8 +18,44 @@ entity dram_spi_bridge is
 end dram_spi_bridge;
 
 architecture dram_spi_bridge_arch of dram_spi_bridge is
-begin
+variable state: std_logic_vector(2 downto 0) := "000";
+variable incmd: std_logic_vector(3 downto 0) := "0000";
+variable access_addr: std_logic_vector(15 downto 0) := x"0000";
 
+begin
+	process(clk) begin
+		if rising_edge(clk) then
+			case state is
+				when "000" =>
+					if spi_cmd_ready = '1' then
+						incmd <= spi_data_from_master(15 downto 12);
+						state := "001";
+					end if;
+				when "001" =>
+					case incmd is
+						when "1000" => state := "010"; --hi address in data section
+						when "1010" => state := "011"; --low address in data section, read
+						when "1011" => state := "100"; --low address in data section, write
+						when others =>
+					end case;
+				when "010" =>
+					if spi_done = '1' then
+						access_addr(15 downto 8) := spi_data_from_master(7 downto 0);
+						state := "000";
+					end if;
+				when "011" =>
+					if spi_done = '1' then
+						access_addr(7 downto 0) := spi_data_from_master(7 downto 0);
+						state := "000";
+					end if;
+				when "100" =>
+					if spi_done = '1' then
+						
+					end if;
+				when others =>
+			end case;
+		end if;	
+	end process;
 end dram_spi_bridge_arch;
 
 library IEEE;
