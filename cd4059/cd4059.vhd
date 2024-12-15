@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-
+--https://www.ti.com/lit/ds/symlink/cd4059a.pdf
 entity cd4059 is
     Port ( clk : in  STD_LOGIC;
 			Ka: in std_logic;
