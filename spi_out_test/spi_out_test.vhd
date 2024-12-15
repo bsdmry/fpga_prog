@@ -4,7 +4,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 
 entity spi_out_test is
-    Port ( clk : in  STD_LOGIC;
+    Port ( clk : in  STD_LOGIC; --384 kHz for 9600 SPI CLK (div_10 * div_4 * 9600)
 	   mosi: out STD_LOGIC := '0';
 	   miso: in STD_LOGIC;
 	   spi_clk: out STD_LOGIC := '0';
@@ -63,7 +63,7 @@ begin
 	end if;
 	end process;
 
-	process(clk) begin
+	process(clk) begin -- divides ext clock by 10
 		if rising_edge(clk) then
 			if divcnt = 4 then
 				divcnt <= 0;
