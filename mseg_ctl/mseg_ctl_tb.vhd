@@ -77,6 +77,14 @@ begin
 	wait for 30 ns;
 	set_signal <= '0';
 	wait for 10 us;
+
+	clear_signal <= '1';
+	set_signal <= '1';
+	wait for 30 ns;
+	clear_signal <= '0';
+	set_signal <= '0';
+	wait for 10 us;
+
 	report "end of test" severity note;
 	sym_stop <= '1';
 	wait;
