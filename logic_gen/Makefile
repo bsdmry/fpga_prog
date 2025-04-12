@@ -7,7 +7,6 @@ SRCS=$(wildcard *.vhd)
 TOP=logic_gen
 VHDLLIBDIR=/usr/lib/ghdl/mcode/vhdl/
 PERSONALLIBDIR=../libraries/
-PERSONALLIBNAME=
 
 # <target name>: <target dependencies>
 # <tab> <target commands>
@@ -18,7 +17,7 @@ YOSYS_CMD+=synth_gowin -json synth.json
 all: bitstream.fs
 	@echo "Done..."
 sim:
-	export GHDL_DIRECTORY=$(PERSONALLIBDIR); ghdl -a $(SRCS); ghdl -e ${TOP}_tb; ghdl -r ${TOP}_tb --vcd=${TOP}.vcd
+	ghdl -a $(SRCS); ghdl -e ${TOP}_tb; ghdl -r ${TOP}_tb --vcd=${TOP}.vcd
 
 simalt:
 	ghdl -a -P=$(PERSONALLIBDIR) $(SRCS); ghdl -e -P=$(PERSONALLIBDIR) ${TOP}_tb; ghdl -r ${TOP}_tb --vcd=${TOP}.vcd
