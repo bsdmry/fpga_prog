@@ -26,9 +26,11 @@ signal clk:  STD_LOGIC := '1';
 signal sym_stop: STD_LOGIC := '0';
 signal val: std_logic_vector(3 downto 0) := "0000";
 signal dig: std_logic_vector(6 downto 0) := "0000000";
+signal dig_inv: std_logic_vector(6 downto 0) := "0000000";
 constant clk_period : time := 50 ns;
 
 begin
+dig_inv <= not dig;
 --	UNIT UNDER TEST
 uut: bcd2sseg port map (
 	b0 => val(0),
