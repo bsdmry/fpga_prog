@@ -21,12 +21,13 @@ signal clock: std_logic;
 signal counter: std_logic_vector(3 downto 0) := "0000";
 begin
 	clock <= clk and not inhibit;
-	process(clock, rst, preset) begin
-		if rst = '1' then 
+	process(clock, rst) begin
+		if (rst = '1') then
 			counter <= "0000";
-		else
-			if preset = '1' then counter <= p; end if;
-			if rising_edge(clock) then
+		elsif rising_edge(clock) then
+			if preset = '1' then
+				counter <= p;
+			else
 				if counter = "0000" then
 					counter <= "1001";
 				else
