@@ -28,7 +28,16 @@ begin
 					after_reset <= '0';
 				else
 					if inhibit = '0' then
-						outval <= to_stdlogicvector(to_bitvector(outval) rol 1);
+						outval(1) <= outval(0);
+						outval(2) <= outval(1);
+						outval(3) <= outval(2);
+						outval(4) <= outval(3);
+						outval(5) <= outval(4);
+						outval(6) <= outval(5);
+						outval(7) <= outval(6);
+						outval(8) <= outval(7);
+						outval(9) <= outval(8);
+						outval(0) <= outval(9);
 						case outval is
 							when "0000010000" => carry <= '0';
 							when "1000000000" => carry <= '1';
