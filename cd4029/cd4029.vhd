@@ -2,7 +2,9 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-
+-- WARNING! This is not a precise implemetnation of CD4029.
+-- An original IC has async "preset_enable" pin for load from a "jam" reg, 
+-- but it is non-synthesable on a FPGA.
 entity cd4029 is
     Port ( 
 	clk : in  STD_LOGIC;
@@ -20,8 +22,10 @@ architecture cd4029_arch of cd4029 is
 signal counter: std_logic_vector(3 downto 0) := "0000";
 begin
 	process(clk) begin
-	if preset_en = '0' then
-		if rising_edge(clk) and carry_in = '0' then
+	if rising_edge(clk) and (carry_in = '0') then
+		if (preset_en = '1') then
+			counter <= jam;
+		else
 			if updown = '1' then
 				case counter is
 					when "1000" =>
@@ -60,8 +64,6 @@ begin
 				end case;
 			end if;
 		end if;
-	else
-		counter <= jam;
 	end if;
 	end process;
 	output <= counter;
