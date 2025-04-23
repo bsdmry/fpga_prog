@@ -33,7 +33,6 @@ signal inbcd: std_logic_vector(3 downto 0) := "0000";
 signal check: std_logic_vector(3 downto 0) := "0000";
 signal oseg: std_logic_vector(6 downto 0) := "0000000";
 signal change: std_logic := '0';
-signal det: std_logic := '0';
 begin
 	bcdconv: bcd2sseg port map(
 			b0=> inbcd(0), b1=> inbcd(1), b2=> inbcd(2), b3=> inbcd(3),
@@ -60,7 +59,6 @@ begin
 	change <= (d(0) xor check(0)) or (d(1) xor check(1)) or (d(2) xor check(2)) or (d(3) xor check(3));
 	process(change) begin
 		if rising_edge(change) then
-			det <= det xor '1';
 			check <= d;
 			if le_n = '1' then
 				inbcd <= d;
