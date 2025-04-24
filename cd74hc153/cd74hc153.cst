@@ -1,3 +1,14 @@
-IO_LOC "clk"     4;
-
-IO_PORT "clk"     IO_TYPE=LVCMOS33;
+IO_LOC "s0"     73;
+IO_LOC "s1"     74;
+IO_LOC "mux0in[0]"     27;
+IO_LOC "mux0in[1]"     28;
+IO_LOC "mux0in[2]"     25;
+IO_LOC "mux0in[3]"     26;
+IO_LOC "en0_n"     29;
+IO_LOC "out0"     30;
+IO_LOC "mux1in[0]"     31;
+IO_LOC "mux1in[1]"     15;
+IO_LOC "mux1in[2]"     16;
+IO_LOC "mux1in[3]"     17;
+IO_LOC "en1_n"    18;
+IO_LOC "out1"    19;
