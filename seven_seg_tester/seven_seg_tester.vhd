@@ -96,11 +96,11 @@ entity clkgen is
 end clkgen;
 
 architecture clkgen_arch of clkgen is
-signal cnt: std_logic_vector(7 downto 0) := x"1A"; --26
+signal cnt: std_logic_vector(7 downto 0) := x"1A"; -- 27-1
 constant prescaler: std_logic_vector(7 downto 0) := x"1A";
 signal clk1mhz: std_logic := '0';
-constant clk100_halfperiod : integer := (20000 -1);
-constant clk1_halfperiod : integer := (2000000 -1);
+constant clk100_halfperiod : integer := (50000 -1);
+constant clk1_halfperiod : integer := (500000 -1);
 signal clk100: std_logic := '0';
 signal clk1: std_logic := '0';
 begin
