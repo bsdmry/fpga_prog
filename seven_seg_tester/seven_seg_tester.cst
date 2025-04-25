@@ -14,6 +14,11 @@ IO_LOC "segs[2]"     49;
 IO_LOC "segs[1]"     86;
 IO_LOC "segs[0]"     79;
 
+#IO_LOC "cntout[0]"     17;
+#IO_LOC "cntout[1]"     18;
+#IO_LOC "cntout[2]"     19;
+#IO_LOC "cntout[3]"     20;
+
 IO_PORT "clk"     IO_TYPE=LVCMOS33;
 IO_PORT "pos[0]"     IO_TYPE=LVCMOS33;
 IO_PORT "pos[1]"     IO_TYPE=LVCMOS33;
@@ -28,3 +33,8 @@ IO_PORT "segs[3]"     IO_TYPE=LVCMOS33;
 IO_PORT "segs[2]"     IO_TYPE=LVCMOS33;
 IO_PORT "segs[1]"     IO_TYPE=LVCMOS33;
 IO_PORT "segs[0]"     IO_TYPE=LVCMOS33;
+
+#IO_PORT "cntout[0]"     IO_TYPE=LVCMOS33;
+#IO_PORT "cntout[1]"     IO_TYPE=LVCMOS33;
+#IO_PORT "cntout[2]"     IO_TYPE=LVCMOS33;
+#IO_PORT "cntout[3]"     IO_TYPE=LVCMOS33;

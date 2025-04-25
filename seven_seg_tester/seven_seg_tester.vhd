@@ -34,9 +34,14 @@ component cd74hc153 is
 end component;
 
 signal clk100h, clk1h: std_logic;
-signal bcd0, bcd1, bcd2, bcd3: std_logic_vector(3 downto 0) := "0001";
-signal active_bcd: std_logic_vector(3 downto 0);
+signal bcd0: std_logic_vector(3 downto 0) := "0011";
+signal bcd1: std_logic_vector(3 downto 0) := "0010";
+signal bcd2: std_logic_vector(3 downto 0) := "0001"; 
+signal bcd3: std_logic_vector(3 downto 0) := "0000";
+signal active_bcd: std_logic_vector(3 downto 0) := "0000";
 signal active_dig: std_logic_vector(1 downto 0) := "00";
+
+signal inc: std_logic_vector(3 downto 0) := "0000";
 
 begin
 	clk_src: clkgen port map(clk=>clk, c100=>clk100h, c1=>clk1h);
@@ -55,12 +60,14 @@ begin
 	bcd2ss: cd4543 port map(le_n => '1', d=>active_bcd, ph=>'0', bl=>'0', q=>segs(6 downto 0));
 	segs(7) <= '1';
 
-	process(clk1h) begin
+	process(clk1h) 
+		begin
 		if rising_edge(clk1h) then
-			case bcd1 is
-				when "1001" => bcd1 <= "0000";
-				when others => bcd1 <= std_logic_vector(unsigned(bcd1)+1);
+			case inc is
+				when "1001" => inc <= "0000";
+				when others => inc <= std_logic_vector(unsigned(inc)+1);
 			end case;
+			bcd0 <= inc;
 		end if;
 	end process;
 
@@ -99,7 +106,8 @@ architecture clkgen_arch of clkgen is
 signal cnt: std_logic_vector(7 downto 0) := x"1A"; -- 27-1
 constant prescaler: std_logic_vector(7 downto 0) := x"1A";
 signal clk1mhz: std_logic := '0';
-constant clk100_halfperiod : integer := (50000 -1);
+--constant clk100_halfperiod : integer := (50000 -1);
+constant clk100_halfperiod : integer := (500 -1); --10kHz
 constant clk1_halfperiod : integer := (500000 -1);
 signal clk100: std_logic := '0';
 signal clk1: std_logic := '0';
