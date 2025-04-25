@@ -16,8 +16,8 @@ end component;
 
 signal clk:  STD_LOGIC := '1';
 signal sym_stop: STD_LOGIC := '0';
---constant clk_period : time := 37 ns; 
-constant clk_period : time := 50 ns; --20 Mhz
+constant clk_period : time := 37 ns; -- ~27 Mhz
+--constant clk_period : time := 50 ns; --20 Mhz
 signal ssegs: std_logic_vector(6 downto 0);
 signal sseg_dp: std_logic;
 signal sseg_pos: std_logic_vector(3 downto 0);
