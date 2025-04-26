@@ -11,9 +11,13 @@ entity seven_seg_tester is
 end seven_seg_tester;
 
 architecture seven_seg_tester_arch of seven_seg_tester is
-component clkgen is port (
+component gen10clock is
+generic (CLK_MHZ: natural);
+port (
 	clk : in  std_logic;
+    c1k: out std_logic := '0'; --1 kHz clk
     c100: out std_logic := '0'; --100 Hz clk
+    c10: out std_logic := '0'; --10 Hz clk
     c1: out std_logic -- 1Hz clk
 );
 end component;
@@ -33,7 +37,9 @@ component cd74hc153 is
     out0: out std_logic; out1: out std_logic);
 end component;
 
-signal clk100h, clk1h: std_logic;
+
+
+signal clk1kh, clk1h: std_logic;
 signal bcd0: std_logic_vector(3 downto 0) := "0011";
 signal bcd1: std_logic_vector(3 downto 0) := "0010";
 signal bcd2: std_logic_vector(3 downto 0) := "0001"; 
@@ -44,7 +50,7 @@ signal active_dig: std_logic_vector(1 downto 0) := "00";
 signal inc: std_logic_vector(3 downto 0) := "0000";
 
 begin
-	clk_src: clkgen port map(clk=>clk, c100=>clk100h, c1=>clk1h);
+	clk_src: gen10clock generic map(CLK_MHZ => 27) port map(clk=>clk, c1k=>clk1kh, c1=>clk1h);
 	bcdmux0: cd74hc153 port map(
 		mux0in(0)=>bcd0(0), mux0in(1)=>bcd1(0), mux0in(2)=>bcd2(0), mux0in(3)=>bcd3(0), 
 		mux1in(0)=>bcd0(1), mux1in(1)=>bcd1(1), mux1in(2)=>bcd2(1), mux1in(3)=>bcd3(1),
@@ -71,8 +77,8 @@ begin
 		end if;
 	end process;
 
-	process(clk100h) begin
-		if rising_edge(clk100h) then
+	process(clk1kh) begin
+		if rising_edge(clk1kh) then
 			case active_dig is
 				when "00" =>  pos <= "1101"; active_dig <= "01";
 				when "01" =>  pos <= "1011"; active_dig <= "10";
@@ -87,67 +93,3 @@ end seven_seg_tester_arch;
 
 
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
-
-entity clkgen is
-  generic (
-     CLK_HZ   : natural := 27000000
-  );
-    port (
-	clk : in  std_logic;
-    	c100: out std_logic := '0'; --100 Hz clk
-    	c1: out std_logic -- 1Hz clk
-	 );
-end clkgen;
-
-architecture clkgen_arch of clkgen is
-signal cnt: std_logic_vector(7 downto 0) := x"1A"; -- 27-1
-constant prescaler: std_logic_vector(7 downto 0) := x"1A";
-signal clk1mhz: std_logic := '0';
---constant clk100_halfperiod : integer := (50000 -1);
-constant clk100_halfperiod : integer := (500 -1); --10kHz
-constant clk1_halfperiod : integer := (500000 -1);
-signal clk100: std_logic := '0';
-signal clk1: std_logic := '0';
-begin
-process(clk) begin
-	if rising_edge(clk) then
-		case cnt is
-			when "00000000" => clk1mhz <= '0'; cnt <= prescaler;
-			when "00000001" => clk1mhz <= '1'; cnt <= std_logic_vector(unsigned(cnt) -1);
-			when others => cnt <= std_logic_vector(unsigned(cnt) -1);
-		end case;
-	end if;
-end process;
-
-process(clk1mhz)
-        variable c: natural range 0 to clk100_halfperiod := clk100_halfperiod;	
-	begin
-	if rising_edge(clk1mhz) then
-		if c = 0 then 
-			clk100 <= clk100 xor '1'; 
-			c := clk100_halfperiod;
-		else
-			c := c-1;
-		end if;
-		c100 <= clk100;
-	end if;
-end process;
-
-process(clk1mhz)
-        variable c: natural range 0 to clk1_halfperiod := clk1_halfperiod;	
-	begin
-	if rising_edge(clk1mhz) then
-		if c = 0 then 
-			clk1 <= clk1 xor '1'; 
-			c := clk1_halfperiod;
-		else
-			c := c-1;
-		end if;
-		c1 <= clk1;
-	end if;
-end process;
-
-end clkgen_arch;
