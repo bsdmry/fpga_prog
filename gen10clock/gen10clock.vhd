@@ -9,6 +9,7 @@ entity gen10clock is
   );
     port (
 		clk : in  std_logic;
+    	c10k: out std_logic := '0'; --10 kHz clk
     	c1k: out std_logic := '0'; --1 kHz clk
     	c100: out std_logic := '0'; --100 Hz clk
     	c10: out std_logic := '0'; --10 Hz clk
@@ -20,12 +21,14 @@ architecture gen10clock_arch of gen10clock is
 signal cnt: std_logic_vector(7 downto 0) := std_logic_vector(to_unsigned(CLK_MHZ-1, 8)); -- 27-1
 constant prescaler: std_logic_vector(7 downto 0) := std_logic_vector(to_unsigned(CLK_MHZ-1, 8));
 
+constant clk10k_halfperiod : integer := (50 -1); --10kHz
 constant clk1k_halfperiod : integer := (500 -1); --1kHz
 constant clk100_halfperiod : integer := (5000 -1); --100Hz
 constant clk10_halfperiod : integer := (50000 -1); --10Hz
 constant clk1_halfperiod : integer := (500000 -1); --1Hz
 
 signal clk1mhz: std_logic := '0';
+signal clk10k: std_logic := '0';
 signal clk1k: std_logic := '0';
 signal clk100: std_logic := '0';
 signal clk10: std_logic := '0';
@@ -39,6 +42,20 @@ process(clk) begin
 			when "00000001" => clk1mhz <= '1'; cnt <= std_logic_vector(unsigned(cnt) -1);
 			when others => cnt <= std_logic_vector(unsigned(cnt) -1);
 		end case;
+	end if;
+end process;
+
+process(clk1mhz)
+        variable c: natural range 0 to clk10k_halfperiod := clk10k_halfperiod;	
+	begin
+	if rising_edge(clk1mhz) then
+		if c = 0 then 
+			clk10k <= clk10k xor '1'; 
+			c := clk10k_halfperiod;
+		else
+			c := c-1;
+		end if;
+		c10k <= clk10k;
 	end if;
 end process;
 
