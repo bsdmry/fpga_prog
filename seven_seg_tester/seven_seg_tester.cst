@@ -19,6 +19,10 @@ IO_LOC "segs[0]"     79;
 #IO_LOC "cntout[2]"     19;
 #IO_LOC "cntout[3]"     20;
 
+IO_LOC "frq_chg_in"   88;
+
+IO_PORT "frq_chg_in" IO_TYPE=LVCMOS33 PULL_MODE=UP DRIVE=8;
+
 IO_PORT "clk"     IO_TYPE=LVCMOS33;
 IO_PORT "pos[0]"     IO_TYPE=LVCMOS33;
 IO_PORT "pos[1]"     IO_TYPE=LVCMOS33;

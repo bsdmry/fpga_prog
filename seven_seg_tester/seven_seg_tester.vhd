@@ -6,6 +6,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity seven_seg_tester is
     Port ( clk : in  std_logic;
 		   frq_chg_in: in std_logic;
+		   --cntout: out std_logic_vector(3 downto 0);
     	   segs: out std_logic_vector(7 downto 0);
     	   pos: out std_logic_vector(3 downto 0)
 	 );
@@ -16,6 +17,7 @@ component gen10clock is
 generic (CLK_MHZ: natural);
 port (
 	clk : in  std_logic;
+    c10k: out std_logic := '0'; --10 kHz clk
     c1k: out std_logic := '0'; --1 kHz clk
     c100: out std_logic := '0'; --100 Hz clk
     c10: out std_logic := '0'; --10 Hz clk
@@ -23,8 +25,9 @@ port (
 );
 end component;
 
-component cd4543 is
-    port ( 
+component cd4543_clk is
+    port (
+		clk: in std_logic; 
 		le_n : in std_logic; d: in std_logic_vector(3 downto 0);
 		ph: in std_logic; bl: in std_logic;
 		q: out std_logic_vector(6 downto 0));
@@ -61,11 +64,12 @@ component cd74hc74_async_rst is
 	 );
 end component;
 
-signal clk1kh, clk10h, clk1h: std_logic;
-signal bcd0: std_logic_vector(3 downto 0) := "0011";
-signal bcd1: std_logic_vector(3 downto 0) := "0010";
-signal bcd2: std_logic_vector(3 downto 0) := "0001"; 
+signal clk10kh, clk1kh, clk10h, clk1h: std_logic;
+signal bcd0: std_logic_vector(3 downto 0) := "0000";
+signal bcd1: std_logic_vector(3 downto 0) := "0000";
+signal bcd2: std_logic_vector(3 downto 0) := "0000"; 
 signal bcd3: std_logic_vector(3 downto 0) := "0000";
+
 signal active_bcd: std_logic_vector(3 downto 0) := "0000";
 signal active_dig: std_logic_vector(1 downto 0) := "00";
 
@@ -73,10 +77,8 @@ signal frq_chng: std_logic;
 signal bcd0_crry, bcd1_crry, bcd2_crry, bcd3_crry: std_logic;
 signal frq_chng_dir: std_logic := '1';
 
-signal inc: std_logic_vector(3 downto 0) := "0000";
-
 begin
-	clk_src: gen10clock generic map(CLK_MHZ => 27) port map(clk=>clk, c1k=>clk1kh, c10=>clk10h, c1=>clk1h);
+	clk_src: gen10clock generic map(CLK_MHZ => 27) port map(clk=>clk, c10k=>clk10kh, c1k=>clk1kh, c10=>clk10h, c1=>clk1h);
 	bcdmux0: cd74hc153 port map(
 		mux0in(0)=>bcd0(0), mux0in(1)=>bcd1(0), mux0in(2)=>bcd2(0), mux0in(3)=>bcd3(0), 
 		mux1in(0)=>bcd0(1), mux1in(1)=>bcd1(1), mux1in(2)=>bcd2(1), mux1in(3)=>bcd3(1),
@@ -89,7 +91,7 @@ begin
 		en0_n => '0', en1_n=>'0', s0=>active_dig(0), s1=>active_dig(1),
 		out0=> active_bcd(2), out1=>active_bcd(3) 
 	);
-	bcd2ss: cd4543 port map(le_n => '1', d=>active_bcd, ph=>'0', bl=>'0', q=>segs(6 downto 0));
+	bcd2ss: cd4543_clk port map(clk=>clk10kh, le_n => '1', d=>active_bcd, ph=>'0', bl=>'0', q=>segs(6 downto 0));
 	segs(7) <= '1';
 
 	u_bcd0: cd4029 port map (
@@ -110,19 +112,8 @@ begin
     	carry_out => bcd3_crry);
 
 	debncr0: cd74hc74_async_rst port map(
-			clk0=>clk10h, d0=>frq_chg_in, r0_n=>'1', s0_n=>'1', q0=>frq_chng,
+			clk0=>clk1kh, d0=>frq_chg_in, r0_n=>'1', s0_n=>'1', q0_n=>frq_chng,
 			clk1=>clk10h, d1=>'0', r1_n=>'1', s1_n=>'1');
-
-	--process(clk1h) 
-	--	begin
-	--	if rising_edge(clk1h) then
-	--		case inc is
-	--			when "1001" => inc <= "0000";
-	--			when others => inc <= std_logic_vector(unsigned(inc)+1);
-	--		end case;
-	--		bcd0 <= inc;
-	--	end if;
-	--end process;
 
 	process(clk1kh) begin
 		if rising_edge(clk1kh) then
