@@ -89,11 +89,17 @@ VHDLLIBDIR=/usr/lib/ghdl/mcode/vhdl/
 
 YOSYS_CMD=ghdl \$(SRCS) -e \$(TOP);
 YOSYS_CMD+=synth_gowin -json synth.json
+YOSYS_VIS_CMD=ghdl \$(TOP).vhd -e \$(TOP);
+YOSYS_VIS_CMD+=show -prefix ./\$(TOP) -format dot -nobg -stretch
 
 all: bitstream.fs
 	@echo \"Done...\"
 sim:
 	ghdl -a \$(SRCS); ghdl -e \${TOP}_tb; ghdl -r \${TOP}_tb --vcd=\${TOP}.vcd
+
+vis: \$(SRC)
+	@echo \"Starting the FPGA visualisation flow...\"
+	export GHDL_PREFIX=\$(VHDLLIBDIR); yosys -m ghdl -p '\$(YOSYS_VIS_CMD)'
 
 # Logic Synthesis
 synth.json: \$(SRCS)
