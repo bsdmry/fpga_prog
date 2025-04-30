@@ -91,7 +91,7 @@ begin
 		en0_n => '0', en1_n=>'0', s0=>active_dig(0), s1=>active_dig(1),
 		out0=> active_bcd(2), out1=>active_bcd(3) 
 	);
-	bcd2ss: cd4543_clk port map(clk=>clk10kh, le_n => '1', d=>active_bcd, ph=>'0', bl=>'0', q=>segs(6 downto 0));
+	bcd2ss: cd4543_clk port map(clk=>clk1kh, le_n => '1', d=>active_bcd, ph=>'0', bl=>'0', q=>segs(6 downto 0));
 	segs(7) <= '1';
 
 	u_bcd0: cd4029 port map (
@@ -118,10 +118,14 @@ begin
 	process(clk1kh) begin
 		if rising_edge(clk1kh) then
 			case active_dig is
-				when "00" =>  pos <= "1101"; active_dig <= "01";
-				when "01" =>  pos <= "1011"; active_dig <= "10";
-				when "10" =>  pos <= "0111"; active_dig <= "11";
-				when "11" =>  pos <= "1110"; active_dig <= "00";
+				when "00" =>  pos <= "1110"; active_dig <= "01";
+				when "01" =>  pos <= "1101"; active_dig <= "10";
+				when "10" =>  pos <= "1011"; active_dig <= "11";
+				when "11" =>  pos <= "0111"; active_dig <= "00";
+				--when "00" =>  pos <= "1101"; active_dig <= "01";
+				--when "01" =>  pos <= "1011"; active_dig <= "10";
+				--when "10" =>  pos <= "0111"; active_dig <= "11";
+				--when "11" =>  pos <= "1110"; active_dig <= "00";
 				when others =>
 			end case;
 		end if;
