@@ -5,7 +5,8 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity seven_seg_tester is
     Port ( clk : in  std_logic;
-		   frq_chg_in: in std_logic;
+		   frq_chg_up_btn: in std_logic;
+		   frq_chg_dwn_btn: in std_logic;
 		   --cntout: out std_logic_vector(3 downto 0);
     	   segs: out std_logic_vector(7 downto 0);
     	   pos: out std_logic_vector(3 downto 0)
@@ -23,6 +24,15 @@ port (
     c10: out std_logic := '0'; --10 Hz clk
     c1: out std_logic -- 1Hz clk
 );
+end component;
+
+component cd74hc00 is
+    port ( 
+		a0: in std_logic; b0: in std_logic; q0: out std_logic;
+		a1: in std_logic; b1: in std_logic; q1: out std_logic;
+		a2: in std_logic; b2: in std_logic; q2: out std_logic;
+		a3: in std_logic; b3: in std_logic; q3: out std_logic
+	 );
 end component;
 
 component cd4543_clk is
@@ -73,9 +83,14 @@ signal bcd3: std_logic_vector(3 downto 0) := "0000";
 signal active_bcd: std_logic_vector(3 downto 0) := "0000";
 signal active_dig: std_logic_vector(1 downto 0) := "00";
 
-signal frq_chng: std_logic;
+signal frq_chg_up_db: std_logic; -- Debounced FRQ_UP button signal
+signal frq_chg_up_db_n: std_logic; -- Neg debounced FRQ_UP button signal
+signal frq_chg_dwn_db: std_logic; -- Debounced FRQ_DWN button signal
+signal frq_chg_dwn_db_n: std_logic; -- Neg debounced FRQ_DWN button signal
+signal frq_chng: std_logic; --Freq UP or DWN press
+signal frq_chng_dir: std_logic; -- Count direction 1-up
+
 signal bcd0_crry, bcd1_crry, bcd2_crry, bcd3_crry: std_logic;
-signal frq_chng_dir: std_logic := '1';
 
 begin
 	clk_src: gen10clock generic map(CLK_MHZ => 27) port map(clk=>clk, c10k=>clk10kh, c1k=>clk1kh, c10=>clk10h, c1=>clk1h);
@@ -111,9 +126,21 @@ begin
     	carry_in => bcd2_crry, jam => "0000", output =>bcd3,
     	carry_out => bcd3_crry);
 
+	updwn_or: cd74hc00 port map (
+		a0 => frq_chg_up_db, b0 => frq_chg_up_db, q0 => frq_chg_up_db_n, 
+		a1 => frq_chg_dwn_db, b1 => frq_chg_dwn_db, q1 => frq_chg_dwn_db_n ,
+		a2 => frq_chg_up_db_n, b2 => frq_chg_dwn_db_n, q2 => frq_chng, 
+		a3 => frq_chg_dwn_db, b3 =>'1', q3 => frq_chng_dir
+	);
+
 	debncr0: cd74hc74_async_rst port map(
-			clk0=>clk1kh, d0=>frq_chg_in, r0_n=>'1', s0_n=>'1', q0_n=>frq_chng,
-			clk1=>clk10h, d1=>'0', r1_n=>'1', s1_n=>'1');
+			clk0=>clk1kh, d0=>frq_chg_up_btn, r0_n=>'1', s0_n=>'1', q0=>frq_chg_up_db,
+			clk1=>clk1kh, d1=>frq_chg_dwn_btn, r1_n=>'1', s1_n=>'1', q1=>frq_chg_dwn_db);
+
+	--cntout(0) <= frq_chg_up_btn;
+	--cntout(1) <= frq_chg_up_db;
+	--cntout(2) <= '1';
+	--cntout(3) <= frq_chng;
 
 	process(clk1kh) begin
 		if rising_edge(clk1kh) then
