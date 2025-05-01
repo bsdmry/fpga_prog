@@ -80,21 +80,21 @@ entity cd74hc74_half_async_rst is
 end cd74hc74_half_async_rst;
 
 architecture cd74hc74_half_async_rst_arch of cd74hc74_half_async_rst is
-signal reg: std_logic := '0';
 begin
 	process(clk, r_n) begin
 		if r_n = '0' then
-			reg <= '0';
+			q <= '0';
+			q_n <= '1';
 		elsif rising_edge(clk) then
 			if s_n = '0' then
-				reg <= '1';
+				q <= '1';
+				q_n <= '0';
 			else
-				reg <= d;
+				q <= d;
+				q_n <= not d;
 			end if;	
 		end if;
 	end process;
-	q <= reg;
-	q_n <= not reg;
 end cd74hc74_half_async_rst_arch;
 
 library IEEE;
@@ -113,19 +113,19 @@ entity cd74hc74_half_async_set is
 end cd74hc74_half_async_set;
 
 architecture cd74hc74_half_async_set_arch of cd74hc74_half_async_set is
-signal reg: std_logic := '0';
 begin
 	process(clk, s_n) begin
 		if s_n = '0' then
-			reg <= '1';
+			q <= '1';
+			q_n <= '0';
 		elsif rising_edge(clk) then
 			if r_n = '0' then
-				reg <= '0';
+				q <= '0';
+				q_n <= '1';
 			else
-				reg <= d;	
+				q <= d;	
+				q_n <= not d;	
 			end if;
 		end if;
 	end process;
-	q <= reg;
-	q_n <= not reg;
 end cd74hc74_half_async_set_arch;
