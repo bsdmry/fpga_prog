@@ -22,10 +22,11 @@ architecture cd4029_arch of cd4029 is
 signal counter: std_logic_vector(3 downto 0) := "0000";
 begin
 	process(clk) begin
-	if rising_edge(clk) and (carry_in = '0') then
+	if rising_edge(clk)then
 		if (preset_en = '1') then
 			counter <= jam;
 		else
+			if carry_in = '0' then
 			if updown = '1' then
 				case counter is
 					when "1000" =>
@@ -62,6 +63,7 @@ begin
 					when others =>
 						counter <= std_logic_vector(unsigned(counter)-1);
 				end case;
+			end if;
 			end if;
 		end if;
 	end if;
