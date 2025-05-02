@@ -35,6 +35,15 @@ component cd74hc00 is
 	 );
 end component;
 
+component cd74hc85 is
+    port (
+		a : in  std_logic_vector(3 downto 0);
+		b : in  std_logic_vector(3 downto 0);
+		agi, bgi, eqi : in std_logic; --A greter B, B greater A, A equal B
+		ago, bgo, eqo : out std_logic
+	 );
+end component;
+
 component cd4543_clk is
     port (
 		clk: in std_logic; 
@@ -91,6 +100,12 @@ signal frq_chng: std_logic; --Freq UP or DWN press
 signal frq_chng_dir: std_logic; -- Count direction 1-up
 
 signal bcd0_crry, bcd1_crry, bcd2_crry, bcd3_crry: std_logic;
+signal ago0, ago1, ago2, ago3: std_logic;
+signal bgo0, bgo1, bgo2, bgo3, bgo3_n: std_logic;
+signal eqo0, eqo1, eqo2, eqo3, eqo3_n: std_logic;
+
+signal preset_sig: std_logic;
+signal predec: std_logic_vector(3 downto 0) := "0000";
 
 begin
 	clk_src: gen10clock generic map(CLK_MHZ => 27) port map(clk=>clk, c10k=>clk10kh, c1k=>clk1kh, c10=>clk10h, c1=>clk1h);
@@ -110,23 +125,39 @@ begin
 	segs(7) <= '1';
 
 	u_bcd0: cd4029 port map (
-    	clk => frq_chng, bindec => '0', updown => frq_chng_dir, preset_en => '0',
+    	clk => frq_chng, bindec => '0', updown => frq_chng_dir, preset_en => preset_sig,
     	carry_in => '0', jam => "0000", output =>bcd0,
     	carry_out => bcd0_crry);
 	u_bcd1: cd4029 port map (
-    	clk => frq_chng, bindec => '0', updown => frq_chng_dir, preset_en => '0',
-    	carry_in => bcd0_crry, jam => "0000", output =>bcd1,
+    	clk => frq_chng, bindec => '0', updown => frq_chng_dir, preset_en => preset_sig,
+    	carry_in => bcd0_crry, jam => predec, output =>bcd1,
     	carry_out => bcd1_crry);
 	u_bcd2: cd4029 port map (
-    	clk => frq_chng, bindec => '0', updown => frq_chng_dir, preset_en => '0',
+    	clk => frq_chng, bindec => '0', updown => frq_chng_dir, preset_en => preset_sig,
     	carry_in => bcd1_crry, jam => "0000", output =>bcd2,
     	carry_out => bcd2_crry);
 	u_bcd3: cd4029 port map (
-    	clk => frq_chng, bindec => '0', updown => frq_chng_dir, preset_en => '0',
+    	clk => frq_chng, bindec => '0', updown => frq_chng_dir, preset_en => preset_sig,
     	carry_in => bcd2_crry, jam => "0000", output =>bcd3,
     	carry_out => bcd3_crry);
 
-	updwn_or: cd74hc00 port map (
+	lim0: cd74hc85 port map(a => "0001", b => bcd0, agi => '0', bgi => '0', eqi => '1',
+		ago => ago0, bgo => bgo0, eqo => eqo0);
+	lim1: cd74hc85 port map(a => "0100", b => bcd1, agi => ago0, bgi => bgo0, eqi => eqo0,
+		ago => ago1, bgo => bgo1, eqo => eqo1);
+	lim2: cd74hc85 port map(a => "0000", b => bcd2, agi => ago1, bgi => bgo1, eqi => eqo1,
+		ago => ago2, bgo => bgo2, eqo => eqo2);
+	lim3: cd74hc85 port map(a => "0000", b => bcd3, agi => ago2, bgi => bgo2, eqi => eqo2,
+		ago => ago3, bgo => bgo3, eqo => eqo3);
+
+	cntrst: cd74hc00 port map ( -- preset_sig <= bgo3 or eqo
+		a0 => bgo3, b0 => bgo3, q0 => bgo3_n,
+		a1 => eqo3, b1 => eqo3, q1 => eqo3_n,
+		a2 => bgo3_n, b2 => eqo3_n, q2 => preset_sig,
+		a3 => preset_sig, b3 => frq_chng_dir, q3 => predec(2) --preset_sig = 1 and dir = 1(up) then 0000, else 0100
+	);
+
+	updwn_or: cd74hc00 port map ( -- frq_chng <= frq_chg_up_db OR frq_chg_dwn_db
 		a0 => frq_chg_up_db, b0 => frq_chg_up_db, q0 => frq_chg_up_db_n, 
 		a1 => frq_chg_dwn_db, b1 => frq_chg_dwn_db, q1 => frq_chg_dwn_db_n ,
 		a2 => frq_chg_up_db_n, b2 => frq_chg_dwn_db_n, q2 => frq_chng, 
@@ -137,10 +168,6 @@ begin
 			clk0=>clk1kh, d0=>frq_chg_up_btn, r0_n=>'1', s0_n=>'1', q0=>frq_chg_up_db,
 			clk1=>clk1kh, d1=>frq_chg_dwn_btn, r1_n=>'1', s1_n=>'1', q1=>frq_chg_dwn_db);
 
-	--cntout(0) <= frq_chg_up_btn;
-	--cntout(1) <= frq_chg_up_db;
-	--cntout(2) <= '1';
-	--cntout(3) <= frq_chng;
 
 	process(clk1kh) begin
 		if rising_edge(clk1kh) then

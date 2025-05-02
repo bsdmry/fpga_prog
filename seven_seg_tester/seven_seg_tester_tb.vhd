@@ -53,20 +53,28 @@ end process;
 stim_process : process
 begin
 	wait for 30 ns;
-	wait for 11 ms;
+	wait for 1 ms;
 	step_up <= '1';
-	wait for 3 ms;
+	wait for 1 ms;
 	step_up <= '0';
-	wait for 11 ms;
-	step_up <= '1';
-	wait for 3 ms;
-	step_up <= '0';
-	wait for 11 ms;
+	wait for 7 ms;
 	step_dwn <= '1';
-	wait for 3 ms;
+	wait for 1 ms;
 	step_dwn <= '0';
-	wait for 11 ms;
-	wait for 50 ms;
+	wait for 7 ms;
+	step_dwn <= '1';
+	wait for 1 ms;
+	step_dwn <= '0';
+	wait for 7 ms;
+	step_dwn <= '1';
+	wait for 1 ms;
+	step_dwn <= '0';
+	wait for 7 ms;
+	step_dwn <= '1';
+	wait for 1 ms;
+	step_dwn <= '0';
+	wait for 7 ms;
+	wait for 30 ms;
 	-- INSERT TEST CODE HERE ---
 	report "end of test" severity note;
 	sym_stop <= '1';
